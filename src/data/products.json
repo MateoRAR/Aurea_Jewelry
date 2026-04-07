@@ -1,0 +1,184 @@
+[
+  {
+    "id": "ring-001",
+    "name": "Aurora Resin Ring",
+    "category": "rings",
+    "price": 65,
+    "material": "resin",
+    "colors": ["#E8D5B0", "#C9922B", "#8B6914"],
+    "images": [
+      "https://picsum.photos/seed/ring001a/600/700",
+      "https://picsum.photos/seed/ring001b/600/700",
+      "https://picsum.photos/seed/ring001c/600/700"
+    ],
+    "description": "Handcrafted resin ring with golden flower inclusions. Each piece is unique, made to order with premium UV resin and finished with a high-gloss coat.",
+    "featured": true,
+    "inStock": true
+  },
+  {
+    "id": "ring-002",
+    "name": "Stellar Band",
+    "category": "rings",
+    "price": 89,
+    "material": "steel",
+    "colors": ["#C0C0C0", "#C9922B"],
+    "images": [
+      "https://picsum.photos/seed/ring002a/600/700",
+      "https://picsum.photos/seed/ring002b/600/700"
+    ],
+    "description": "Minimalist stainless steel band with engraved geometric pattern. Hypoallergenic, tarnish-resistant, and waterproof.",
+    "featured": false,
+    "inStock": true
+  },
+  {
+    "id": "ring-003",
+    "name": "Bloom Duo Ring",
+    "category": "rings",
+    "price": 78,
+    "material": "combo",
+    "colors": ["#FAF8F0", "#C9922B", "#E8B86D"],
+    "images": [
+      "https://picsum.photos/seed/ring003a/600/700",
+      "https://picsum.photos/seed/ring003b/600/700"
+    ],
+    "description": "Resin and stainless steel combined ring. Floral resin insert in a slim steel frame. Available in multiple color stories.",
+    "featured": false,
+    "inStock": true
+  },
+  {
+    "id": "necklace-001",
+    "name": "Lily Pendant",
+    "category": "necklaces",
+    "price": 95,
+    "material": "combo",
+    "colors": ["#FAF8F0", "#C9922B"],
+    "images": [
+      "https://picsum.photos/seed/neck001a/600/700",
+      "https://picsum.photos/seed/neck001b/600/700",
+      "https://picsum.photos/seed/neck001c/600/700"
+    ],
+    "description": "Our signature lily pendant — the embodiment of the Aurea brand. Resin lily encased in a stainless steel frame on a 45cm adjustable chain.",
+    "featured": true,
+    "inStock": true
+  },
+  {
+    "id": "necklace-002",
+    "name": "Golden Drop",
+    "category": "necklaces",
+    "price": 72,
+    "material": "resin",
+    "colors": ["#C9922B", "#E8B86D", "#2C2416"],
+    "images": [
+      "https://picsum.photos/seed/neck002a/600/700",
+      "https://picsum.photos/seed/neck002b/600/700"
+    ],
+    "description": "Teardrop resin pendant with suspended gold leaf inclusions. Delicate 40cm steel chain included.",
+    "featured": false,
+    "inStock": true
+  },
+  {
+    "id": "necklace-003",
+    "name": "Celestial Chain",
+    "category": "necklaces",
+    "price": 110,
+    "material": "steel",
+    "colors": ["#C0C0C0", "#C9922B"],
+    "images": [
+      "https://picsum.photos/seed/neck003a/600/700",
+      "https://picsum.photos/seed/neck003b/600/700"
+    ],
+    "description": "Premium stainless steel chain necklace with star-shaped connector links. PVD gold plating for lasting shine.",
+    "featured": false,
+    "inStock": false
+  },
+  {
+    "id": "earring-001",
+    "name": "Petal Studs",
+    "category": "earrings",
+    "price": 48,
+    "material": "resin",
+    "colors": ["#FAF8F0", "#C9922B", "#E8B86D"],
+    "images": [
+      "https://picsum.photos/seed/ear001a/600/700",
+      "https://picsum.photos/seed/ear001b/600/700"
+    ],
+    "description": "Dainty resin petal stud earrings with embedded dried flowers. Hypoallergenic steel posts. Sold as a pair.",
+    "featured": true,
+    "inStock": true
+  },
+  {
+    "id": "earring-002",
+    "name": "Halo Hoops",
+    "category": "earrings",
+    "price": 62,
+    "material": "steel",
+    "colors": ["#C9922B"],
+    "images": [
+      "https://picsum.photos/seed/ear002a/600/700",
+      "https://picsum.photos/seed/ear002b/600/700"
+    ],
+    "description": "Slim stainless steel hoop earrings with a brushed gold finish. Lightweight and comfortable for all-day wear.",
+    "featured": false,
+    "inStock": true
+  },
+  {
+    "id": "earring-003",
+    "name": "Cascade Drops",
+    "category": "earrings",
+    "price": 75,
+    "material": "combo",
+    "colors": ["#FAF8F0", "#C9922B", "#6B5C3E"],
+    "images": [
+      "https://picsum.photos/seed/ear003a/600/700",
+      "https://picsum.photos/seed/ear003b/600/700"
+    ],
+    "description": "Elongated drop earrings featuring hand-poured resin ovals in a steel wire frame. Each piece has a unique color distribution.",
+    "featured": false,
+    "inStock": true
+  },
+  {
+    "id": "bracelet-001",
+    "name": "Serenity Cuff",
+    "category": "bracelets",
+    "price": 85,
+    "material": "combo",
+    "colors": ["#FAF8F0", "#C9922B", "#E8B86D"],
+    "images": [
+      "https://picsum.photos/seed/brac001a/600/700",
+      "https://picsum.photos/seed/brac001b/600/700"
+    ],
+    "description": "Wide stainless steel cuff bracelet with a resin inlay panel. Available in three color stories. Fits most wrist sizes.",
+    "featured": false,
+    "inStock": true
+  },
+  {
+    "id": "bracelet-002",
+    "name": "Ember Wrap",
+    "category": "bracelets",
+    "price": 55,
+    "material": "resin",
+    "colors": ["#C9922B", "#8B6914", "#2C2416"],
+    "images": [
+      "https://picsum.photos/seed/brac002a/600/700",
+      "https://picsum.photos/seed/brac002b/600/700"
+    ],
+    "description": "Resin bangle with warm amber tones and gold flake inclusions. Lightweight, durable, and water-resistant.",
+    "featured": false,
+    "inStock": true
+  },
+  {
+    "id": "bracelet-003",
+    "name": "Link Chain Bracelet",
+    "category": "bracelets",
+    "price": 68,
+    "material": "steel",
+    "colors": ["#C0C0C0", "#C9922B"],
+    "images": [
+      "https://picsum.photos/seed/brac003a/600/700",
+      "https://picsum.photos/seed/brac003b/600/700"
+    ],
+    "description": "Chunky stainless steel link bracelet with a toggle clasp. Available in silver-tone and gold-tone PVD finish.",
+    "featured": false,
+    "inStock": true
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Valentina R.",
+    "rating": 5,
+    "text": "The Lily Pendant is absolutely stunning. I ordered it as a gift and everyone keeps asking where it's from. The quality is incredible for the price.",
+    "avatar": "https://picsum.photos/seed/avatar1/80/80"
+  },
+  {
+    "id": 2,
+    "name": "María José L.",
+    "rating": 5,
+    "text": "My custom resin ring arrived beautifully packaged. The colors are exactly what I described and it fits perfectly. Will definitely order again!",
+    "avatar": "https://picsum.photos/seed/avatar2/80/80"
+  },
+  {
+    "id": 3,
+    "name": "Camila F.",
+    "rating": 5,
+    "text": "Aurea's craftsmanship is on another level. The Aurora Resin Ring is my everyday piece now. Unique, elegant, and so personal.",
+    "avatar": "https://picsum.photos/seed/avatar3/80/80"
+  }
+]
