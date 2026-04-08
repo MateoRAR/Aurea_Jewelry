@@ -8,7 +8,7 @@ import ParallaxCards from '../components/ui/paralaxcards'
 
 export default function Landing() {
   const cards = [
-    { content: <Categories />, className: 'bg-cream' },
+    { content: <Categories />, className: 'bg-cream'},
     { content: <FeaturedCollection />, className: 'bg-cream-mid' },
   ]
 
@@ -17,8 +17,12 @@ export default function Landing() {
       <Hero />
       <ParallaxCards cards={cards} />
       <CustomOrderBanner />
-      <Testimonials />
-      <Footer />
+      <div className="relative z-30">
+        <Testimonials />
+      </div>
+      <div className="relative z-30">
+        <Footer />
+      </div>
     </main>
   )
 }

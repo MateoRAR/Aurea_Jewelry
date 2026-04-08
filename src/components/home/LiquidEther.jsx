@@ -95,7 +95,6 @@ export default function LiquidEther({
         this.renderer.domElement.style.width = '100%';
         this.renderer.domElement.style.height = '100%';
         this.renderer.domElement.style.display = 'block';
-        // three@0.183+ deprecates THREE.Clock in favor of THREE.Timer.
         this.timer = new THREE.Timer();
         this.timer.update();
       }

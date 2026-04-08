@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import AnimatedSection from '../ui/AnimatedSection'
 import CurvedLoop from '../curved-loop/Curved-loop'
+import BorderGlow from '../glowing-border/GlowingBorder'
+import SpotlightCard from '../spotlight-card/SpotLightCard'
 
 const categories = [
   { label: 'Rings', slug: 'rings', emoji: '💍', desc: 'Resin & steel bands' },
@@ -11,9 +13,25 @@ const categories = [
 ]
 
 export default function Categories() {
+  const details = [
+    {
+      title: 'Handmade to order',
+      text: 'Every piece is carefully finished by hand for a one-of-a-kind result.',
+    },
+    {
+      title: 'Premium materials',
+      text: 'Durable stainless steel and premium resin selected for comfort and shine.',
+    },
+    {
+      title: 'Custom-friendly',
+      text: 'Want a personal touch? We can adapt many designs to your style.',
+    },
+  ]
+
   return (
-    <AnimatedSection className="py-20 px-4 sm:px-6 max-w-7xl mx-auto">
-      <div className="text-center mb-3">
+    <AnimatedSection className="w-full bg-cream py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="text-center mb-3 pt-12">
         <p className="label-tag mb-3">Browse by Category</p>
         <h2 className="section-heading">Find your style</h2>
       </div>
@@ -42,16 +60,50 @@ export default function Categories() {
             viewport={{ once: true }}
             transition={{ delay: i * 0.1, duration: 0.5 }}
           >
-            <Link
-              to={`/shop?category=${slug}`}
-              className="block bg-white/60 backdrop-blur-glass border border-gold-border rounded-2xl shadow-glass hover:bg-white/75 hover:shadow-glass-hover transition-all duration-300 p-6 text-center group"
+            <BorderGlow
+              edgeSensitivity={30}
+              glowColor="40 70 70"
+              backgroundColor="transparent"
+              borderRadius={20}
+              glowRadius={80}
+              glowIntensity={3}
+              coneSpread={25}
+              animated
+              colors={['#C9922B', '#E8B86D', '#F5EDD8']}
+              fillOpacity={0.1}
+              className="rounded-2xl"
             >
-              <div className="text-4xl mb-3">{emoji}</div>
-              <h3 className="font-display text-xl text-espresso mb-1 group-hover:text-gold transition-colors">{label}</h3>
-              <p className="font-body text-xs text-espresso-soft">{desc}</p>
-            </Link>
+              <Link
+                to={`/shop?category=${slug}`}
+                className="block rounded-2xl bg-white/60 backdrop-blur-glass border border-gold-border shadow-glass hover:bg-white/75 hover:shadow-glass-hover transition-all duration-300 p-6 text-center group"
+              >
+                <div className="text-4xl mb-3">{emoji}</div>
+                <h3 className="font-display text-xl text-espresso mb-1 group-hover:text-gold transition-colors">{label}</h3>
+                <p className="font-body text-xs text-espresso-soft">{desc}</p>
+              </Link>
+            </BorderGlow>
           </motion.div>
         ))}
+      </div>
+
+      <div className="mt-12 grid gap-4 md:grid-cols-3">
+        {details.map((item) => (
+          <SpotlightCard
+            key={item.title}
+            className="custom-spotlight-card rounded-2xl border border-gold-border bg-white/60 p-5 backdrop-blur-glass shadow-glass"
+            spotlightColor="rgba(201, 146, 43, 0.22)"
+          >
+            <p className="font-display text-lg text-espresso">{item.title}</p>
+            <p className="mt-2 font-body text-sm text-espresso-soft">{item.text}</p>
+          </SpotlightCard>
+        ))}
+      </div>
+
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-sm text-espresso-soft">
+        <span className="rounded-full border border-gold-border bg-white/70 px-4 py-2">Free polishing cloth included</span>
+        <span className="rounded-full border border-gold-border bg-white/70 px-4 py-2">Secure checkout</span>
+        <span className="rounded-full border border-gold-border bg-white/70 px-4 py-2">Worldwide shipping available</span>
+      </div>
       </div>
     </AnimatedSection>
   )

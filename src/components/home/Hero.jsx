@@ -70,7 +70,7 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-cream"
+      className="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-transparent"
     >
       <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden>
         <LiquidEther
@@ -95,7 +95,7 @@ export default function Hero() {
       <div className="pointer-events-none absolute right-1/4 top-1/4 z-[1] h-96 w-96 rounded-full bg-gold/10 blur-3xl" />
       <div className="pointer-events-none absolute bottom-1/4 left-1/4 z-[1] h-72 w-72 rounded-full bg-gold-light/10 blur-3xl" />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center px-4 pb-24 pt-28 text-center sm:px-6">
+      <div className="fixed inset-0 z-10 mx-auto flex h-screen w-full max-w-4xl flex-col items-center justify-center px-4 text-center sm:px-6">
         <p className="hero-tag label-tag mb-5">Handcrafted for you</p>
 
         <h1 className="hero-title mb-8 max-w-4xl">
@@ -141,7 +141,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-espresso-soft">
+      <div className="fixed bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-espresso-soft">
         <span className="font-body text-xs uppercase tracking-[0.2em]">Scroll</span>
         <div className="h-10 w-px bg-gradient-to-b from-espresso-soft to-transparent" />
       </div>
