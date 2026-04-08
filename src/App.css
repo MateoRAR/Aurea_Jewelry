@@ -25,6 +25,15 @@
   touch-action: none;
 }
 
+/* Prevent rare scroll/resize gaps by pinning the WebGL canvas */
+.liquid-ether-container > canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
 .hero {
   position: relative;
 

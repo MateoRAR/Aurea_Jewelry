@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useCart } from '../../context/CartContext'
+import GoldButton from '../ui/GoldButton'
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -81,11 +82,8 @@ export default function Navbar({ onCartOpen }) {
             )}
           </button>
 
-          <Link
-            to="/shop"
-            className="hidden md:inline-flex bg-gold text-white font-body text-sm font-medium px-5 py-2 rounded-xl hover:bg-gold-light transition-colors"
-          >
-            Shop Now
+          <Link to="/shop" className="hidden md:inline-flex">
+            <GoldButton variant="clear" className="!w-auto !h-auto px-5 py-2">Shop Now</GoldButton>
           </Link>
 
           {/* Mobile hamburger */}

@@ -27,9 +27,6 @@ function ProductOverlay({ product }) {
           <span className="font-display text-xl text-gold-light [text-shadow:0_2px_6px_rgba(0,0,0,0.5)]">
             ${product.price}
           </span>
-          <span className="rounded-full border border-white/30 bg-white/15 px-3 py-1.5 font-body text-xs font-medium text-white [backdrop-filter:blur(12px)]">
-            View piece →
-          </span>
         </div>
       </div>
     </div>
@@ -44,7 +41,7 @@ export default function FeaturedCollection() {
           <p className="label-tag mb-3">Curated for You</p>
           <h2 className="section-heading">Featured Collection</h2>
         </div>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-6">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-6 pt-12 pb-16">
           {featured.map((product, i) => (
             <motion.div
               key={product.id}

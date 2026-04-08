@@ -1,4 +1,4 @@
-/* Local fonts (public/fonts) */
+/* Local fonts (served from /fonts via public/) */
 @import url('/fonts/Britney/Fonts/WEB/css/britney.css');
 @import url('/fonts/Quicksand/Fonts/WEB/css/quicksand.css');
 
@@ -47,7 +47,7 @@
     @apply hover:bg-white/75 hover:shadow-glass-hover transition-all duration-300;
   }
   .section-heading {
-    @apply font-display text-4xl md:text-5xl font-light text-espresso tracking-wide;
+    @apply font-display text-4xl md:text-5xl font-display-regular text-espresso tracking-wide;
   }
   .label-tag {
     @apply text-xs font-body font-medium tracking-[0.2em] uppercase text-gold;
@@ -59,4 +59,133 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+}
+
+@layer utilities {
+  /* Display (Britney) hierarchy: Light (smallest) -> Ultra (highest) */
+  .font-display-light {
+    font-family: 'Britney-Light', 'Britney', Georgia, serif;
+    font-weight: 300;
+  }
+  .font-display-regular {
+    font-family: 'Britney-Regular', 'Britney', Georgia, serif;
+    font-weight: 400;
+  }
+  .font-display-bold {
+    font-family: 'Britney-Bold', 'Britney', Georgia, serif;
+    font-weight: 700;
+  }
+  .font-display-ultra {
+    font-family: 'Britney-Ultra', 'Britney', Georgia, serif;
+    font-weight: 900;
+  }
+
+  /* Body (Quicksand) hierarchy: Light (smallest) -> Bold (most important) */
+  .font-body-light {
+    font-family: 'Quicksand-Light', 'Quicksand', system-ui, sans-serif;
+    font-weight: 300;
+  }
+  .font-body-regular {
+    font-family: 'Quicksand-Regular', 'Quicksand', system-ui, sans-serif;
+    font-weight: 400;
+  }
+  .font-body-medium {
+    font-family: 'Quicksand-Medium', 'Quicksand', system-ui, sans-serif;
+    font-weight: 500;
+  }
+  .font-body-semibold {
+    font-family: 'Quicksand-SemiBold', 'Quicksand', system-ui, sans-serif;
+    font-weight: 600;
+  }
+  .font-body-bold {
+    font-family: 'Quicksand-Bold', 'Quicksand', system-ui, sans-serif;
+    font-weight: 700;
+  }
+
+  /* Mask an effect so it is stronger toward the bottom (still visible at top) */
+  .mask-bottom-fade {
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.5) 35%, rgba(0, 0, 0, 0.85) 70%, #000 100%);
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.5) 35%, rgba(0, 0, 0, 0.85) 70%, #000 100%);
+  }
+}
+
+.button-glass {
+  background: transparent;
+  border: none;
+  position: relative;
+  color: #FAF8F0;
+  cursor: pointer;
+  z-index: 0;
+  isolation: isolate;
+  padding: 0.75rem 1.5rem; /* ~= py-3 px-6 */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  overflow: visible; /* allow the hover expansion to breathe */
+  border-radius: 12px; /* matches Tailwind rounded-xl */
+  font-size: 0.875rem; /* ~= text-sm */
+  font-weight: 500; /* ~= font-medium */
+}
+
+.button-glass::after,
+.button-glass::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+  transition: all 0.4s;
+  pointer-events: none;
+}
+
+.button-glass::before {
+  transform: translate(0%, 0%);
+  width: 100%;
+  height: 100%;
+  background: #2C2416; /* espresso */
+  border-radius: 12px;
+}
+
+.button-glass::after {
+  transform: translate(10px, 10px);
+  width: 35px;
+  height: 35px;
+  background: rgba(201, 146, 43, 0.18); /* gold tint */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 50px;
+}
+
+.button-glass:hover::before {
+  transform: translate(5%, 20%);
+  width: 110%;
+  height: 110%;
+}
+
+.button-glass:hover::after {
+  border-radius: 12px;
+  transform: translate(0, 0);
+  width: 100%;
+  height: 100%;
+}
+
+.button-glass:active::after {
+  transition: 0s;
+  transform: translate(0, 5%);
+}
+
+.button-glass--clear::before {
+  background: #C9922B;
+}
+
+.button-glass--clear {
+  color: #2C2416;
+}
+
+.button-glass--clear::after {
+  background: rgba(235, 235, 235, 0.28);
 }

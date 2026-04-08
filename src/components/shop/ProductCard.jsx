@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ShoppingCart, Star, Gem } from 'lucide-react'
 import { useCart } from '../../context/CartContext'
+import GoldButton from '../ui/GoldButton'
 import {
   CardFlip,
   CardFlipFront,
@@ -34,7 +35,7 @@ export default function ProductCard({ product }) {
         frontToolbarTitle={
           <Link
             to={`/shop/${id}`}
-            className="block min-w-0 truncate font-display text-lg font-semibold tracking-tight text-espresso transition-colors hover:text-gold sm:text-xl"
+            className="block min-w-0 truncate font-display-regular text-2xl font-semibold tracking-tight text-espresso transition-colors hover:text-gold"
           >
             {name}
           </Link>
@@ -88,7 +89,7 @@ export default function ProductCard({ product }) {
             </p>
           </CardFlipHeader>
 
-          <CardFlipContent className="mt-4 px-4 pt-2 pb-2">
+          <CardFlipContent className="mt-4 px-4  pb-2">
             <div className="flex flex-wrap items-center gap-3">
               {palette.map((hex) => (
                 <button
@@ -110,17 +111,14 @@ export default function ProductCard({ product }) {
           </CardFlipContent>
 
           <CardFlipFooter className="flex items-stretch gap-3 px-4">
-            <Link
-              to={`/shop/${id}`}
-              className="flex flex-1 items-center justify-center rounded-xl bg-gold px-4 py-2.5 font-body text-sm font-medium text-white shadow-glass transition-colors hover:bg-gold-light"
-            >
-              View piece
+            <Link to={`/shop/${id}`} className="flex flex-1 items-center justify-center">
+              <GoldButton variant="clear" className="w-full justify-center">View piece</GoldButton>
             </Link>
             <button
               type="button"
               disabled={!inStock}
               onClick={() => addItem(product)}
-              className="flex w-12 items-center justify-center rounded-xl bg-espresso px-2 py-2 text-white shadow-glass transition-colors hover:bg-espresso-soft disabled:cursor-not-allowed disabled:opacity-40"
+              className="relative p-2 text-espresso-soft hover:text-gold transition-colors disabled:cursor-not-allowed disabled:opacity-40"
               aria-label="Add to cart"
             >
               <ShoppingCart className="h-5 w-5" />
