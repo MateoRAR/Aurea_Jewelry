@@ -4,13 +4,18 @@ import FeaturedCollection from '../components/home/FeaturedCollection'
 import CustomOrderBanner from '../components/home/CustomOrderBanner'
 import Testimonials from '../components/home/Testimonials'
 import Footer from '../components/layout/Footer'
+import ParallaxCards from '../components/ui/paralaxcards'
 
 export default function Landing() {
+  const cards = [
+    { content: <Hero /> },
+    { content: <Categories />, className: 'bg-cream' },
+    { content: <FeaturedCollection />, className: 'bg-cream-mid' },
+  ]
+
   return (
     <main>
-      <Hero />
-      <Categories />
-      <FeaturedCollection />
+      <ParallaxCards cards={cards} />
       <CustomOrderBanner />
       <Testimonials />
       <Footer />

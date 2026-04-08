@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import AnimatedSection from '../ui/AnimatedSection'
+import CurvedLoop from '../curved-loop/Curved-loop'
 
 const categories = [
   { label: 'Rings', slug: 'rings', emoji: '💍', desc: 'Resin & steel bands' },
@@ -12,10 +13,26 @@ const categories = [
 export default function Categories() {
   return (
     <AnimatedSection className="py-20 px-4 sm:px-6 max-w-7xl mx-auto">
-      <div className="text-center mb-12">
+      <div className="text-center mb-3">
         <p className="label-tag mb-3">Browse by Category</p>
         <h2 className="section-heading">Find your style</h2>
       </div>
+
+      {/* curveAmount must stay ~within viewBox height (120); large values paint the text far below the layout box */}
+      <div
+        className="-mx-4 mb-8 mt-1 text-gold sm:-mx-6 md:mx-0 md:mb-10 [&_.curved-loop-jacket]:text-gold"
+        aria-hidden
+      >
+        <CurvedLoop
+          marqueeText="Aurea ✦ Jewelry ✦ Handmade ✦ Resin & steel ✦ "
+          speed={2}
+          curveAmount={68}
+          direction="right"
+          interactive
+          className="font-display tracking-wide"
+        />
+      </div>
+
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {categories.map(({ label, slug, emoji, desc }, i) => (
           <motion.div

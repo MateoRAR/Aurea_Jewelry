@@ -1,4 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+/* Local fonts (public/fonts) */
+@import url('/fonts/Britney/Fonts/WEB/css/britney.css');
+@import url('/fonts/Quicksand/Fonts/WEB/css/quicksand.css');
+
+/* Family aliases requested by project:
+   font-family: 'Britney', cursive;
+   font-family: 'Quicksand', sans-serif;
+   We map them to the variable fonts (self-hosted). */
+@font-face {
+  font-family: 'Britney';
+  src:
+    url('/fonts/Britney/Fonts/WEB/fonts/Britney-Variable.woff2') format('woff2'),
+    url('/fonts/Britney/Fonts/WEB/fonts/Britney-Variable.woff') format('woff');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Quicksand';
+  src:
+    url('/fonts/Quicksand/Fonts/WEB/fonts/Quicksand-Variable.woff2') format('woff2'),
+    url('/fonts/Quicksand/Fonts/WEB/fonts/Quicksand-Variable.woff') format('woff');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
