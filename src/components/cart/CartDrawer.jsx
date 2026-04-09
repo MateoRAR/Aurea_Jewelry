@@ -1,116 +1,209 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { useRef, useLayoutEffect, useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { gsap } from 'gsap'
 import { useCart } from '../../context/CartContext'
 import GoldButton from '../ui/GoldButton'
+import './CartDrawer.css'
 
 export default function CartDrawer({ open, onClose }) {
   const { items, count, removeItem, clearCart } = useCart()
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
+  const backdropRef    = useRef(null)
+  const preLayersRef   = useRef(null)
+  const panelRef       = useRef(null)
+  const titleInnerRef  = useRef(null)
+  const openTlRef      = useRef(null)
+  const closeTweenRef  = useRef(null)
+  const titleAnimRef   = useRef(null)
+  const prevOpenRef    = useRef(false)
+
+  const [titleLines, setTitleLines] = useState(['Your Cart'])
+
+  // Set everything off-screen on mount
+  useLayoutEffect(() => {
+    const panel   = panelRef.current
+    const layers  = preLayersRef.current ? Array.from(preLayersRef.current.children) : []
+    const backdrop = backdropRef.current
+    if (panel)   gsap.set([panel, ...layers], { xPercent: 100 })
+    if (backdrop) gsap.set(backdrop, { opacity: 0, pointerEvents: 'none' })
+  }, [])
+
+  const playOpen = useCallback(() => {
+    const panel   = panelRef.current
+    const layers  = preLayersRef.current ? Array.from(preLayersRef.current.children) : []
+    const backdrop = backdropRef.current
+    if (!panel) return
+
+    openTlRef.current?.kill()
+    closeTweenRef.current?.kill()
+
+    const itemLabels = Array.from(panel.querySelectorAll('.cd-item-label'))
+    const footer     = panel.querySelector('.cd-footer')
+
+    if (itemLabels.length) gsap.set(itemLabels, { yPercent: 140, rotate: 10 })
+    if (footer)            gsap.set(footer, { opacity: 0, y: 20 })
+
+    const tl = gsap.timeline()
+
+    tl.to(backdrop, { opacity: 1, pointerEvents: 'auto', duration: 0.25, ease: 'power2.out' }, 0)
+
+    layers.forEach((el, i) => {
+      tl.fromTo(el, { xPercent: 100 }, { xPercent: 0, duration: 0.5, ease: 'power4.out' }, i * 0.07)
+    })
+
+    const panelAt = (layers.length - 1) * 0.07 + 0.08
+    tl.fromTo(panel, { xPercent: 100 }, { xPercent: 0, duration: 0.65, ease: 'power4.out' }, panelAt)
+
+    if (itemLabels.length) {
+      tl.to(itemLabels, {
+        yPercent: 0, rotate: 0, duration: 1, ease: 'power4.out',
+        stagger: { each: 0.1 },
+      }, panelAt + 0.1)
+    }
+
+    if (footer) {
+      tl.to(footer, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, panelAt + 0.35)
+    }
+
+    openTlRef.current = tl
+  }, [])
+
+  const playClose = useCallback(() => {
+    const panel   = panelRef.current
+    const layers  = preLayersRef.current ? Array.from(preLayersRef.current.children) : []
+    const backdrop = backdropRef.current
+    if (!panel) return
+
+    openTlRef.current?.kill()
+    closeTweenRef.current = gsap.to([...layers, panel], {
+      xPercent: 100, duration: 0.32, ease: 'power3.in', overwrite: 'auto',
+    })
+    gsap.to(backdrop, { opacity: 0, pointerEvents: 'none', duration: 0.25, ease: 'power2.in' })
+  }, [])
+
+  const animateTitle = useCallback(() => {
+    const inner = titleInnerRef.current
+    if (!inner) return
+    titleAnimRef.current?.kill()
+
+    const seq = ['Your Cart', 'Your Picks', 'My Bag', 'Your Cart']
+    setTitleLines(seq)
+    gsap.set(inner, { yPercent: 0 })
+    const finalShift = ((seq.length - 1) / seq.length) * 100
+    titleAnimRef.current = gsap.to(inner, {
+      yPercent: -finalShift,
+      duration: 0.5 + seq.length * 0.07,
+      ease: 'power4.out',
+    })
+  }, [])
+
+  useEffect(() => {
+    if (open && !prevOpenRef.current) {
+      prevOpenRef.current = true
+      playOpen()
+      animateTitle()
+    } else if (!open && prevOpenRef.current) {
+      prevOpenRef.current = false
+      playClose()
+    }
+  }, [open, playOpen, playClose, animateTitle])
+
+  // Click-away on backdrop
+  useEffect(() => {
+    if (!open) return
+    const handler = (e) => { if (e.target === backdropRef.current) onClose() }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [open, onClose])
+
   return (
-    <AnimatePresence>
-      {open && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            key="backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-espresso/30 backdrop-blur-sm z-50"
-          />
+    <div className="cd-wrapper">
+      <div ref={backdropRef} className="cd-backdrop" />
 
-          {/* Drawer */}
-          <motion.div
-            key="drawer"
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed right-0 top-0 bottom-0 w-full max-w-sm bg-white/90 backdrop-blur-glass border-l border-gold-border shadow-glass-hover z-50 flex flex-col"
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-gold-border">
-              <h2 className="font-display text-2xl text-espresso">Your Cart ({count})</h2>
-              <button onClick={onClose} className="p-2 text-espresso-soft hover:text-espresso transition-colors">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+      <div ref={preLayersRef} className="cd-prelayers" aria-hidden>
+        <div className="cd-prelayer" style={{ background: '#C9922B' }} />
+        <div className="cd-prelayer" style={{ background: '#F5DFA5' }} />
+      </div>
+
+      <div ref={panelRef} className="cd-panel" aria-hidden={!open}>
+        {/* Header */}
+        <div className="cd-header">
+          <div className="cd-title-wrap">
+            <span className="cd-title-inner" ref={titleInnerRef}>
+              {titleLines.map((l, i) => (
+                <span className="cd-title-line" key={i}>{l}</span>
+              ))}
+            </span>
+          </div>
+          <div className="cd-header-meta">
+            <span className="cd-count">{count} {count === 1 ? 'item' : 'items'}</span>
+            <button onClick={onClose} className="cd-close" aria-label="Close cart">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Items */}
+        <div className="cd-items">
+          {items.length === 0 ? (
+            <div className="cd-empty">
+              <p className="font-display text-xl text-espresso-soft mb-4">Your cart is empty</p>
+              <Link to="/shop" onClick={onClose}>
+                <GoldButton variant="outline">Browse Collection</GoldButton>
+              </Link>
             </div>
-
-            {/* Items */}
-            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
-              {items.length === 0 ? (
-                <div className="py-16 text-center">
-                  <p className="font-display text-xl text-espresso-soft mb-4">Your cart is empty</p>
-                  <Link to="/shop" onClick={onClose}>
-                    <GoldButton variant="outline">Browse Collection</GoldButton>
-                  </Link>
-                </div>
-              ) : (
-                items.map(item => (
-                  <motion.div
-                    key={item.id}
-                    layout
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
-                    className="flex gap-4 bg-cream/60 rounded-xl p-3"
-                  >
-                    <img
-                      src={item.images[0]}
-                      alt={item.name}
-                      className="w-16 h-16 rounded-lg object-cover shrink-0"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-display text-base text-espresso truncate">{item.name}</h4>
-                      <p className="font-body text-xs text-espresso-soft capitalize mb-1">{item.material}</p>
-                      <div className="flex items-center justify-between">
-                        <span className="font-body text-sm text-gold font-medium">
-                          ${item.price} × {item.quantity}
-                        </span>
-                        <button
-                          onClick={() => removeItem(item.id)}
-                          className="text-espresso-soft hover:text-red-400 transition-colors"
-                          aria-label={`Remove ${item.name}`}
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        </button>
-                      </div>
+          ) : (
+            <ul className="cd-list">
+              {items.map((item) => (
+                <li key={item.id} className="cd-item">
+                  <div className="cd-item-name-wrap">
+                    <Link
+                      to={`/product/${item.id}`}
+                      className="cd-item-link"
+                      onClick={onClose}
+                    >
+                      <span className="cd-item-label">{item.name}</span>
+                    </Link>
+                  </div>
+                  <div className="cd-item-meta">
+                    <img src={item.images[0]} alt={item.name} className="cd-item-img" />
+                    <div className="cd-item-info">
+                      <span className="cd-item-price">${item.price} × {item.quantity}</span>
+                      <span className="cd-item-material">{item.material}</span>
                     </div>
-                  </motion.div>
-                ))
-              )}
-            </div>
+                    <button
+                      onClick={() => removeItem(item.id)}
+                      className="cd-item-remove"
+                      aria-label={`Remove ${item.name}`}
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
-            {/* Footer */}
-            {items.length > 0 && (
-              <div className="border-t border-gold-border px-6 py-5 space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="font-body text-sm text-espresso-soft">Subtotal</span>
-                  <span className="font-display text-xl text-espresso">${total}</span>
-                </div>
-                <p className="font-body text-xs text-espresso-soft text-center">
-                  Checkout coming soon — contact us to complete your order.
-                </p>
-                <Link to="/custom" onClick={onClose}>
-                  <GoldButton className="w-full !py-3">Place Custom Order</GoldButton>
-                </Link>
-                <button
-                  onClick={clearCart}
-                  className="w-full font-body text-xs text-espresso-soft hover:text-red-400 transition-colors py-1"
-                >
-                  Clear cart
-                </button>
-              </div>
-            )}
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+        {/* Footer */}
+        {items.length > 0 && (
+          <div className="cd-footer">
+            <div className="cd-total">
+              <span>Subtotal</span>
+              <span className="cd-total-amount">${total}</span>
+            </div>
+            <GoldButton className="w-full !py-4 !text-base">
+              Pay · ${total}
+            </GoldButton>
+            <button onClick={clearCart} className="cd-clear">Clear cart</button>
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
