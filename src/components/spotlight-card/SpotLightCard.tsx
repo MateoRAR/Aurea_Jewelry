@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import './SpotlightCard.css';
+import './SpotLightCard.css';
 
 interface Position {
   x: number;

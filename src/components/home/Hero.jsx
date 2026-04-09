@@ -115,9 +115,6 @@ export default function Hero() {
         </p>
 
         <div className="hero-ctas flex flex-wrap items-center justify-center gap-4">
-          <Link to="/shop">
-            <GoldButton variant="clear">Explore Collection</GoldButton>
-          </Link>
           <Link to="/custom">
             <GoldButton variant="clear">Design Yours</GoldButton>
           </Link>

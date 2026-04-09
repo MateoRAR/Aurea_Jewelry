@@ -4,6 +4,7 @@ import AnimatedSection from '../components/ui/AnimatedSection'
 import SpotlightCard from '../components/spotlight-card/SpotLightCard'
 import ParallaxCards from '../components/ui/paralaxcards'
 import DomeGallery from '../components/gallery/DomeGallery'
+import GradientText from '../components/gradient-text/GradientText'
 import Footer from '../components/layout/Footer'
 
 const VALUES = [
@@ -34,13 +35,21 @@ const sections = [
         <div className="relative z-10 text-center px-4">
           <p className="label-tag text-white/80 mb-4">Our story</p>
           <motion.h1
-            className="font-display text-5xl md:text-7xl font-light text-white"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
-            "Crafted for you,<br />
-            <em className="text-gold-light">forever."</em>
+            <span className="font-display font-display-bold text-6xl md:text-8xl text-white">
+              "Crafted for you,<br />
+              <GradientText
+                colors={['#F5DFA5', '#C9922B', '#8B6914', '#E8C97A', '#F5DFA5']}
+                animationSpeed={4}
+                showBorder={false}
+                className="font-display font-display-bold text-6xl md:text-8xl inline"
+              >
+                forever."
+              </GradientText>
+            </span>
           </motion.h1>
         </div>
       </section>

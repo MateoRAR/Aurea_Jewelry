@@ -113,7 +113,7 @@
   background: transparent;
   border: none;
   position: relative;
-  color: #FAF8F0;
+  color: #FFFFFF;
   cursor: pointer;
   z-index: 0;
   isolation: isolate;
@@ -183,7 +183,7 @@
 }
 
 .button-glass--clear {
-  color: #2C2416;
+  color: #FFFFFF;
 }
 
 .button-glass--clear::after {
