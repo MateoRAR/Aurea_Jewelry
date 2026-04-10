@@ -8,6 +8,7 @@ const navLinks = [
   { to: '/', label: 'Home' },
   { to: '/shop', label: 'Shop' },
   { to: '/custom', label: 'Custom Order' },
+  { to: '/design', label: 'Design' },
   { to: '/about', label: 'About' },
 ]
 
