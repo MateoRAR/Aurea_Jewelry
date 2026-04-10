@@ -165,38 +165,56 @@ function TextOverlay({ panel, scrollYProgress }: TextOverlayProps) {
   const k3 = fadeEnd
   const k4 = Math.min(1, fadeEnd + FADE)
 
-  // Build deduplicated input array (Framer Motion requires strictly increasing inputs)
-  const inputKeys = [k0, k1, k2, k3, k4]
-  const outputVals = [0, 0.8, 1, 0.8, 0]
-  const dedupedInputs: number[] = []
-  const dedupedOutputs: number[] = []
-  inputKeys.forEach((k, i) => {
-    if (dedupedInputs.length === 0 || k > dedupedInputs[dedupedInputs.length - 1]) {
-      dedupedInputs.push(k)
-      dedupedOutputs.push(outputVals[i])
-    }
-  })
+  const opacityInputs: number[] = []
+  const opacityOutputs: number[] = []
 
-  const opacity = useTransform(scrollYProgress, dedupedInputs, dedupedOutputs)
+  // Fade-in ramp
+  if (k0 < k1) {
+    opacityInputs.push(k0)
+    opacityOutputs.push(0)
+  }
+  // Approach full opacity
+  opacityInputs.push(k1, k2, k3)
+  opacityOutputs.push(0.8, 1, 0.8)
+  // Fade-out ramp
+  if (k4 > k3) {
+    opacityInputs.push(k4)
+    opacityOutputs.push(0)
+  }
+
+  const opacity = useTransform(scrollYProgress, opacityInputs, opacityOutputs)
 
   const blurK0 = Math.max(0, fadeStart - FADE)
   const blurK1 = fadeStart
   const blurK2 = fadeEnd
   const blurK3 = Math.min(1, fadeEnd + FADE)
 
-  const blurInputs = [blurK0, blurK1, blurK2, blurK3]
-  const blurOutputs = [4, 0, 0, 4]
-  // Deduplicate
-  const dedupedBlurInputs: number[] = []
-  const dedupedBlurOutputs: number[] = []
-  blurInputs.forEach((k, i) => {
-    if (dedupedBlurInputs.length === 0 || k > dedupedBlurInputs[dedupedBlurInputs.length - 1]) {
-      dedupedBlurInputs.push(k)
-      dedupedBlurOutputs.push(blurOutputs[i])
-    }
-  })
+  // Build blur keypoints explicitly to handle the case where
+  // blurK0 === blurK1 (ramp has zero width — start sharp instead of blurry)
+  const blurInputs: number[] = []
+  const blurOutputs: number[] = []
 
-  const blurPx = useTransform(scrollYProgress, dedupedBlurInputs, dedupedBlurOutputs)
+  if (blurK0 < blurK1) {
+    // Enter-blur ramp has non-zero width: start blurry, sharpen at fadeStart
+    blurInputs.push(blurK0, blurK1)
+    blurOutputs.push(4, 0)
+  } else {
+    // Ramp collapsed (e.g. fadeStart already at 0) — start sharp immediately
+    blurInputs.push(blurK0)
+    blurOutputs.push(0)
+  }
+  // Stay sharp through visible window
+  if (blurK2 > blurInputs[blurInputs.length - 1]) {
+    blurInputs.push(blurK2)
+    blurOutputs.push(0)
+  }
+  // Blur out on exit
+  if (blurK3 > blurK2) {
+    blurInputs.push(blurK3)
+    blurOutputs.push(4)
+  }
+
+  const blurPx = useTransform(scrollYProgress, blurInputs, blurOutputs)
   const filter = useMotionTemplate`blur(${blurPx}px)`
 
   const positionStyle: React.CSSProperties = {
