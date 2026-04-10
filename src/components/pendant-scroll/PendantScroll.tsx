@@ -159,17 +159,44 @@ function TextOverlay({ panel, scrollYProgress }: TextOverlayProps) {
   const fadeStart = Math.max(0, center - width)
   const fadeEnd   = Math.min(1, center + width)
 
-  const opacity = useTransform(
-    scrollYProgress,
-    [Math.max(0, fadeStart - FADE), fadeStart, center, fadeEnd, Math.min(1, fadeEnd + FADE)],
-    [0, 0.8, 1, 0.8, 0],
-  )
+  const k0 = Math.max(0, fadeStart - FADE)
+  const k1 = fadeStart
+  const k2 = center
+  const k3 = fadeEnd
+  const k4 = Math.min(1, fadeEnd + FADE)
 
-  const blurPx = useTransform(
-    scrollYProgress,
-    [Math.max(0, fadeStart - FADE), fadeStart],
-    [4, 0],
-  )
+  // Build deduplicated input array (Framer Motion requires strictly increasing inputs)
+  const inputKeys = [k0, k1, k2, k3, k4]
+  const outputVals = [0, 0.8, 1, 0.8, 0]
+  const dedupedInputs: number[] = []
+  const dedupedOutputs: number[] = []
+  inputKeys.forEach((k, i) => {
+    if (dedupedInputs.length === 0 || k > dedupedInputs[dedupedInputs.length - 1]) {
+      dedupedInputs.push(k)
+      dedupedOutputs.push(outputVals[i])
+    }
+  })
+
+  const opacity = useTransform(scrollYProgress, dedupedInputs, dedupedOutputs)
+
+  const blurK0 = Math.max(0, fadeStart - FADE)
+  const blurK1 = fadeStart
+  const blurK2 = fadeEnd
+  const blurK3 = Math.min(1, fadeEnd + FADE)
+
+  const blurInputs = [blurK0, blurK1, blurK2, blurK3]
+  const blurOutputs = [4, 0, 0, 4]
+  // Deduplicate
+  const dedupedBlurInputs: number[] = []
+  const dedupedBlurOutputs: number[] = []
+  blurInputs.forEach((k, i) => {
+    if (dedupedBlurInputs.length === 0 || k > dedupedBlurInputs[dedupedBlurInputs.length - 1]) {
+      dedupedBlurInputs.push(k)
+      dedupedBlurOutputs.push(blurOutputs[i])
+    }
+  })
+
+  const blurPx = useTransform(scrollYProgress, dedupedBlurInputs, dedupedBlurOutputs)
   const filter = useMotionTemplate`blur(${blurPx}px)`
 
   const positionStyle: React.CSSProperties = {
