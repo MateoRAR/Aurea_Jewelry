@@ -1,7 +1,7 @@
 // tests/PendantScroll.test.jsx
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { vi, describe, it, expect, beforeAll } from 'vitest'
+import { vi, describe, it, expect, beforeAll, afterAll } from 'vitest'
 
 vi.mock('framer-motion', async () => {
   const actual = await vi.importActual('framer-motion')
@@ -15,15 +15,23 @@ vi.mock('framer-motion', async () => {
   }
 })
 
-beforeAll(() => {
-  HTMLCanvasElement.prototype.getContext = vi.fn(() => ({
-    clearRect: vi.fn(),
-    drawImage: vi.fn(),
-    fillRect: vi.fn(),
-    fillStyle: '',
-  }))
+// Prevent jsdom's instant onerror from collapsing the loading overlay
+vi.stubGlobal('Image', class {
+  onload = null
+  onerror = null
+  src = ''
+  get complete() { return false }
+  get naturalWidth() { return 0 }
 })
 
+// jsdom doesn't implement ResizeObserver
+vi.stubGlobal('ResizeObserver', class {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+})
+
+// Import after vi.mock (Vitest hoists vi.mock automatically)
 import PendantScroll from '../src/components/pendant-scroll/PendantScroll'
 
 function Wrapper({ children }) {
@@ -31,6 +39,22 @@ function Wrapper({ children }) {
 }
 
 describe('PendantScroll', () => {
+  let originalGetContext
+
+  beforeAll(() => {
+    originalGetContext = HTMLCanvasElement.prototype.getContext
+    HTMLCanvasElement.prototype.getContext = vi.fn(() => ({
+      clearRect: vi.fn(),
+      drawImage: vi.fn(),
+      fillRect: vi.fn(),
+      fillStyle: '',
+    }))
+  })
+
+  afterAll(() => {
+    HTMLCanvasElement.prototype.getContext = originalGetContext
+  })
+
   it('renders without crashing', () => {
     render(<PendantScroll />, { wrapper: Wrapper })
   })
