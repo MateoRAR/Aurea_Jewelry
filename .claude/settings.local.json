@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git -C /mnt/c/Users/Usuario/Desktop/Trabajo/aurea_2/aurea log --oneline -1)",
+      "Bash(npx tsc:*)",
+      "Bash(./node_modules/.bin/tsc --noEmit)",
+      "Bash(npm run:*)",
+      "Read(//tmp/claude-1000/-mnt-c-Users-Usuario-Desktop-Trabajo-aurea_2-aurea/359be8dd-6c95-4ed5-9712-19aae826ce74/tasks/**)",
+      "Read(//tmp/claude-1000/**)",
+      "Bash(timeout 90 node_modules/.bin/vite build)",
+      "Bash(npm test:*)",
+      "Bash(npx vitest:*)",
+      "Bash(cat /tmp/claude-1000/-mnt-c-Users-Usuario-Desktop-Trabajo-aurea_2-aurea/*/tasks/bozgxpeqe.output)",
+      "Bash(find /tmp/claude-1000 -name \"bozgxpeqe.output\" -exec cat {} \\\\;)",
+      "Bash(node:*)",
+      "Bash(wait)",
+      "Bash(echo \"EXIT: $?\")"
+    ]
+  }
+}
